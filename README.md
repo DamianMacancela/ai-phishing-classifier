@@ -1,54 +1,41 @@
-# Detector de Phishing con Machine Learning
+# AI Phishing Classifier
 
-> Clasificador de texto que distingue correos de phishing de correos legítimos usando
-> TF-IDF + Naive Bayes, como capa complementaria a controles técnicos (SPF/DKIM/DMARC).
+Este proyecto es un experimento para combinar el **Machine Learning clásico** con la **Ciberseguridad**. Es un clasificador de correos electrónicos diseñado para distinguir entre correos legítimos y phishing utilizando procesamiento de lenguaje natural (NLP).
 
-## 🎯 Objetivo
+Aunque hoy en día existen controles robustos como SPF, DKIM y DMARC a nivel de infraestructura, la detección basada en el *contenido* del mensaje (identificando urgencia, engaños y anomalías lingüísticas) sigue siendo una capa de defensa crucial. 
 
-Explorar cómo un modelo de NLP simple puede apoyar la detección temprana de phishing,
-entendiendo tanto sus capacidades como sus límites (falsos negativos/positivos) frente a
-un problema de seguridad real.
+## 🛠️ Cómo funciona
 
-## 🧭 Contexto y alcance
+El modelo está escrito en Python y utiliza `scikit-learn` para procesar y clasificar el texto.
 
-- Prototipo educativo con un dataset de ejemplo reducido e incluido en el propio script,
-  para que sea 100% reproducible sin descargas externas.
-- Para producción, este modelo debería entrenarse con un dataset real y balanceado
-  (ej. "Phishing Email Dataset" de Kaggle o el corpus público de SpamAssassin), y
-  complementarse con reglas de encabezado (SPF/DKIM/DMARC) y no usarse como único filtro.
+1. **Extracción de Características (TF-IDF):** Transforma el texto crudo de los correos en vectores numéricos, evaluando qué palabras son estadísticamente importantes en correos maliciosos frente a los normales.
+2. **Clasificación (Naive Bayes):** Utiliza el algoritmo Multinomial Naive Bayes, que es excelente y extremadamente rápido para problemas de clasificación de texto.
 
-## 🛠️ Metodología
+## 🚀 Uso Rápido
 
-1. Vectorización de texto con TF-IDF.
-2. Clasificación binaria (phishing / legítimo) con Naive Bayes multinomial.
-3. Evaluación con matriz de confusión y reporte de clasificación.
-4. Prueba con un correo nuevo no visto durante el entrenamiento.
+1. Clona el repositorio:
+   ```bash
+   git clone https://github.com/DamianMacancela/ai-phishing-classifier.git
+   cd ai-phishing-classifier
+   ```
 
-## 🧰 Stack técnico
+2. Instala las dependencias:
+   ```bash
+   pip install -r requirements.txt
+   ```
+   *(Dependencias principales: `pandas`, `scikit-learn`, `numpy`)*
 
-Python · scikit-learn
+3. Ejecuta el script de prueba o entrena tu propio modelo (revisa la carpeta de `notebooks` o `src`).
 
-## ▶️ Cómo ejecutarlo
+## 🧠 ¿Por qué hice este proyecto?
 
-```bash
-pip install scikit-learn
-python phishing_classifier.py
-```
+Quería entender las matemáticas y la lógica detrás de los filtros de spam y phishing antes de saltar a arquitecturas de Redes Neuronales complejas (Deep Learning/LLMs). Construir un clasificador desde cero me ayudó a comprender el valor de los datos limpios y cómo características muy simples (frecuencia de ciertas palabras clave como "urgent", "password", "verify") pueden proporcionar resultados sorprendentemente buenos.
 
-## 📊 Resultados
+## Siguientes Pasos
 
-Con el dataset de ejemplo (10 correos), el modelo clasifica correctamente el correo de
-prueba como *phishing*. Con un dataset real de miles de ejemplos, se esperaría reportar
-aquí precisión, recall y F1-score reales — no se deben inflar métricas de un dataset de
-juguete como si fueran de producción.
+- Incorporar características estructuradas del correo (e.g., presencia de enlaces, URLs malformadas, discrepancias en dominios del remitente).
+- Probar algoritmos más avanzados como Random Forest o SVM para comparar exactitud y falsos positivos.
 
-## 💡 Lecciones aprendidas
+## Licencia
 
-Un modelo de texto por sí solo tiene límites claros: no analiza encabezados técnicos del
-correo (SPF/DKIM/DMARC) ni la reputación del dominio. Su valor real está en combinarse con
-esas señales, no en reemplazarlas — es una lección tanto técnica como de honestidad al
-presentar resultados.
-
-## 📄 Licencia
-
-MIT
+[MIT License](LICENSE)
